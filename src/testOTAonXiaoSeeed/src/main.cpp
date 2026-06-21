@@ -6,18 +6,20 @@
 
 // 外部ファイルからSSIDとパスワードを読み込む
 #include "secrets.h"
-
-// ファームウェア情報の定義
-const char* FIRMWARE_VERSION = "v1.0"; // OTA成功後にここが v2.0 になれば実験成功！
-const char* DEVICE_NAME = "XIAO_ESP32C3_OTA_TEST";
+#include "version.h"
 
 // Wi-Fi設定 (secrets.h のマクロを使用)
 const char* ssid = SECRET_SSID;
 const char* password = SECRET_PASS;
 
+// バージョンとか設定とか
+const char* firmwareVersion = FIRMWARE_VERSION;
+const char* deviceName = DEVICE_NAME;
+String firmwareUrl = FIRMWARE_URL;
+
 // 実験用：ダウンロードするファームウェアのURL
 // ※今はダミーURLです。次のフェーズでGitHubのRelease URLに書き換えます。
-String firmwareUrl = "https://example.com/firmware.bin"; 
+
 
 // シリアル入力バッファ
 String inputString = "";
@@ -114,7 +116,7 @@ void setup() {
   Serial.println("\n\n================================");
   Serial.println("--- Booting Device ---");
   Serial.print("Current Firmware Version: ");
-  Serial.println(FIRMWARE_VERSION);
+  Serial.println(firmwareVersion);
 
   pinMode(D10, OUTPUT);
   digitalWrite(D10, HIGH); 
@@ -157,9 +159,8 @@ void loop() {
 
         // クエリ *IDN? の判定
         if (inputString.equalsIgnoreCase("*IDN?")) {
-          Serial.printf("SeeedStudio,%s,000000,%s\n", DEVICE_NAME, FIRMWARE_VERSION);
-        } 
-        // OTA実行コマンド UPDATE の判定
+          Serial.printf("SeeedStudio,%s,000000,%s\n", deviceName, firmwareVersion);
+        }
         else if (inputString.equalsIgnoreCase("UPDATE")) {
           if (WiFi.status() == WL_CONNECTED) {
              performOTA(firmwareUrl); // 設定したURLでOTAを開始
