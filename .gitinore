@@ -1,0 +1,6 @@
+src/testOTAonXiaoSeeed/.pio
+src/testOTAonXiaoSeeed/.vscode/.browse.c_cpp.db*
+src/testOTAonXiaoSeeed/.vscode/c_cpp_properties.json
+src/testOTAonXiaoSeeed/.vscode/launch.json
+src/testOTAonXiaoSeeed/.vscode/ipch
+src/testOTAonXiaoSeeed/include/secrets.h
